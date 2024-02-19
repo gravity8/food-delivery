@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Right from "../icons/Right";
 
-const Hero = () => {
+export const Hero = () => {
   return (
     <section className="hero mt-10">
         <div className="py-12">
@@ -35,5 +35,3 @@ const Hero = () => {
     </section>
   )
 }
-
-export default Hero
