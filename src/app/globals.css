@@ -7,6 +7,19 @@ section.hero{
     grid-template-columns: .4fr .6fr;
 }
 
+.animateArrow {
+  transition: all .5s ease-in-out;
+}
+
+.animateArrow:hover {
+  padding-right: 30px;
+}
+.arrow{
+  transition: all 0.3s ease;
+}
+.animateArrow:hover .arrow{
+  @apply translate-x-6
+}
 select,
 input[type="email"],
 input[type="password"],
@@ -27,12 +40,14 @@ label{
 label + input{
     margin-top: -2px;
 }
-button, .button{
+.button{
     @apply flex w-full justify-center gap-2 text-gray-700 font-semibold;
     @apply border border-gray-300 rounded-xl px-6 py-2;
 }
 button[type="submit"], .submit, button.primary{
     @apply border-primary bg-primary text-white;
+    @apply flex w-full justify-center gap-2 font-semibold;
+    @apply border border-gray-300 rounded-xl px-6 py-2;
 }
 button[type="submit"]:disabled, .submit:disabled{
     @apply cursor-not-allowed bg-red-400;

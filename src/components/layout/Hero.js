@@ -23,7 +23,7 @@ export const Hero = () => {
                 <button
                      className=" animateArrow flex gap-2 py-2 text-gray-600 font-semibold"
                 >Learn more
-                <Right className={"w-6 h-6 "}/>
+                <Right className={"w-6 h-6 arrow"}/>
                 </button>
             </div>
         </div>
