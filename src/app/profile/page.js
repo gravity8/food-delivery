@@ -7,17 +7,19 @@ import { useState , useEffect} from "react";
 import { set } from "mongoose";
 
 
+
 const ProfilePage = () => {
     const session = useSession();
     const [userName,setUserName] = useState("");
+    const [userImage, setUserImage] = useState("");
     const [profileUpdating, setProfileUpdating] = useState(false);
     const [profileUpdated, setProfileUpdated] = useState(false)
     const {status} = session;
-    const userImage = session?.data?.user?.image
 
     useEffect(()=>{
         if(status==="authenticated"){
             setUserName(session?.data?.user?.name)
+            setUserImage(session?.data?.user?.image)
         }
     },[session, status])
 
@@ -37,7 +39,7 @@ const ProfilePage = () => {
             headers: {
                 "Content-Type" : "application/json",
             },
-            body: JSON.stringify({name:userName})
+            body: JSON.stringify({name:userName, image: userImage})
         })
         if(response.ok){
             setProfileUpdated(true)
@@ -53,11 +55,14 @@ const ProfilePage = () => {
 
         if(files?.length === 1){
             const data = new FormData();
-            data.set('files', files[0])
-            await fetch("/api/upload",{
+            data.set('file', files[0])
+            const response = await fetch("/api/upload",{
                 method: "POST",
                 body: data
             })
+
+            const link = await response.json();
+            setUserImage(link);
         }
 
     }   
@@ -78,15 +83,20 @@ const ProfilePage = () => {
                 Updating changes...
             </h2>}
             <div className="flex gap-4 items-center">
-                <div className=" p-2 rounded-lg">
-                   <Image 
-                        draggable="false"
-                        className={"rounded-lg w-full h-full mb-1"} 
-                        src={userImage} 
-                        alt={"avatar"} 
-                        width={250} 
-                        height={250}
-                    />
+                <div className=" p-2 rounded-lg relative max-w-[120px]">
+                    {
+                        userImage && (
+                            <Image 
+                            draggable="false"
+                            className={"rounded-lg w-full h-full mb-1"} 
+                            src={userImage} 
+                            alt={"avatar"} 
+                            width={250} 
+                            height={250}
+                            />
+                        )
+                    }
+                   
                     <label>
                         <input 
                         type="file" 
