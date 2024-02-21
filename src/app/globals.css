@@ -8,17 +8,17 @@ section.hero{
 }
 
 .animateArrow {
-  transition: all .5s ease-in-out;
+  transition: all .3s ease-in-out;
 }
 
 .animateArrow:hover {
-  padding-right: 30px;
+  padding-right: 20px;
 }
 .arrow{
   transition: all 0.3s ease;
 }
 .animateArrow:hover .arrow{
-  @apply translate-x-6
+  @apply translate-x-3
 }
 select,
 input[type="email"],

@@ -1,4 +1,5 @@
 "use client";
+import { signIn } from "next-auth/react";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,7 +19,7 @@ const RegisterPage = () => {
         
         const response = await fetch("/api/register", {
             method: "POST",
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify({ email, password}),
             headers: { 'Content-Type': 'application/json' }
         });
 
@@ -45,7 +46,7 @@ const RegisterPage = () => {
             </div>
         )}
         {error && (
-            <div className="my-4 text-center">
+            <div className="my-4 text-red-500 text-center">
                 An Error has Occurred.<br/>
                 Please try again.
             </div>
@@ -76,8 +77,11 @@ const RegisterPage = () => {
             <div
              className="my-4 text-center text-gray-500"
             >or login with provider</div>
-            <button className="flex justify-center items-center gap-4 button">
-                <Image src={"/google.png"} width={24} height={24}></Image>
+            <button 
+            type="button"
+            onClick={()=> signIn('google', {callbackUrl: "/"})}
+            className="flex justify-center items-center gap-4 button">
+                <Image src={"/google.png"} alt={"google"} width={24} height={24} />
                 Login with Google
             </button>
             <div className=" text-center my-4">
