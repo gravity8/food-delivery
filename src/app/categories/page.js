@@ -6,12 +6,14 @@ import {useProfile} from "@/components/UseProfile"
 import { redirect } from "next/navigation";
 import { Bars } from "react-loader-spinner";
 import toast from "react-hot-toast";
+import { FaTrash } from "react-icons/fa6";
 
 const CategoriesPage = () => {
 
     const [categoryName, setCategoryName] = useState("");
     const [categories, setCategories] = useState([]);
     const [editCategory, setEditCategory] = useState(null);
+    const [deleteCategory, setDeleteCategory] = useState(null);
 
     useEffect(()=>{
         fetchCategory();
@@ -59,10 +61,29 @@ const CategoriesPage = () => {
             success: editCategory? "Category updated":"Category added",
             error: editCategory ? "Failed to update category" :"Failed to add category"
         })
-
         setEditCategory(null)
     }
-    
+
+    const handleDeleteCategory = async (c)=>{
+
+        toast.promise(
+            fetch("/api/categories",{
+                method: "DELETE",
+                headers: {
+                    "Content-Type" : "application/json",
+                },
+                body : JSON.stringify({_id: c._id})
+            }),
+            {
+                loading: "Deleting category",
+                success: "Categoty deleted",
+                error: "Error deleting category"
+            }
+        )
+        setDeleteCategory(null);
+        fetchCategory();
+    }
+
   return (
     <>
         {
@@ -92,23 +113,58 @@ const CategoriesPage = () => {
                                     onChange={(e)=>setCategoryName(e.target.value)}
                                 />
                             </div>
-                            <button type="submit" className="mt-3">{editCategory? "Update" :"Create"}</button>
+                            <button 
+                                type="submit" 
+                                className="mt-3"
+                                disabled={!categoryName}
+                            >{editCategory? "Update" :"Create"}</button>
                         </div>
                        
                     </form>
                     <div>
-                        <h2 className="mt-8 text-sm text-gray-500 ">Edit Category:</h2>
                         {
-                            categories.length>0 && categories.map((c)=>(
-                                <div 
-                                onClick={()=>{
-                                    setEditCategory(c)
-                                    setCategoryName(c.name)
-                                }}
-                                className="flex bg-gray-200 rounded-xl mb-2 p-2 px-4 gap-1 cursor-pointer">
-                                    {c.name}
+                            categories.length >0 && (
+                                <h2 className="mt-8 text-sm text-gray-500 ">Edit Category:</h2>
+                            )
+                        }
+                        
+                        {
+                            categories.length>0 &&
+                                categories.map((c)=>(
+                                <>
+                                    <div className="flex items-center gap-2">
+                                        <div 
+                                            onClick={()=>{
+                                                setEditCategory(c)
+                                                setCategoryName(c.name)
+                                            }}
+                                            className="flex grow bg-gray-200 rounded-xl mb-2 p-2 px-4 gap-1 cursor-pointer"
+                                        >
+                                            <span>{c.name}</span>
+                                        </div>
+                                        <div onClick={()=>{
+                                                
+                                                handleDeleteCategory(c)
+                                            }}>
+                                            <FaTrash                                  
+                                                className="mb-2 text-red-500 cursor-pointer"
+                                            />
+                                        </div>
+                                        
+                                    </div>
+                                </>
+                                )
+                                
+                            )
+                        }
+                        {
+                            !categories.length>0 && (
+                                <div className="my-8">
+                                    <h2 className="text-gray-400 text-xl text-center">
+                                        No categories available
+                                    </h2>
                                 </div>
-                            ))
+                            )
                         }
                     </div>
                 </section>

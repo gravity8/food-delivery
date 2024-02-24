@@ -138,8 +138,8 @@ const ProfilePage = () => {
         <>
         <UserTabs isAdmin = {isAdmin}/>
         <div className="max-w-md mx-auto ">
-            <div className="flex gap-4 ">
-                <div className=" p-2 rounded-lg relative self-start pt-0 max-w-[120px]">
+            <div className="flex gap-4">
+                <div className=" p-2 rounded-lg relative self-start pt-0 max-w-[120px] -z-10">
                     {
                         userImage && (
                             <Image 
@@ -220,7 +220,7 @@ const ProfilePage = () => {
                         onChange={e=> setCountry(e.target.value)}
                     />
                     <button
-                        className="submit" 
+                        className="w-full" 
                         type="submit"
                     >
                         Save

@@ -20,3 +20,11 @@ export const PUT = async (req)=>{
     await Category.updateOne({_id}, {name})
     return Response.json(true)
 }
+
+export const DELETE = async (req)=>{
+    const {_id} = await req.json();
+
+    await Category.deleteOne({_id});
+
+    return Response.json(true);
+}

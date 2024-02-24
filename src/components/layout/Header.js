@@ -19,7 +19,7 @@ const Header = () => {
   },[])
 
   return (
-    <header className="flex justify-between items-center sticky top-3 bg-white"> 
+    <header className="flex justify-between items-center sticky top-0 py-2 bg-white"> 
       <Link className="text-primary font-bold text-2xl " href="">
           ST PIZZA
       </Link>
