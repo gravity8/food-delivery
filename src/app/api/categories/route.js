@@ -14,3 +14,9 @@ export const GET = async ()=>{
         await Category.find()
     )
 }
+
+export const PUT = async (req)=>{
+    const {_id, name} = await req.json()
+    await Category.updateOne({_id}, {name})
+    return Response.json(true)
+}
