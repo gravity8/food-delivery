@@ -33,6 +33,7 @@ input[type="password"]:disabled,
 input[type="tel"]:disabled,
 input[type="text"]:disabled {
     @apply bg-gray-300 border-0 cursor-not-allowed text-gray-500;
+    @apply outline-gray-300
 }
 label{
     @apply text-gray-500 text-sm leading-tight;
@@ -46,7 +47,7 @@ label + input{
 }
 button[type="submit"], .submit, button.primary{
     @apply border-primary bg-primary text-white;
-    @apply flex w-full justify-center gap-2 font-semibold;
+    @apply flex w-auto justify-center gap-2 font-semibold;
     @apply border border-gray-300 rounded-xl px-6 py-2;
 }
 button[type="submit"]:disabled, .submit:disabled{

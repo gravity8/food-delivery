@@ -1,16 +1,25 @@
 "use client";
+// import { getSession } from "next-auth";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import { useEffect } from "react";
 
 const Header = () => {
 
   const session = useSession();
-  const status = session.status;
-
-  const userName = session.data?.user?.name.split(" ")[0] || session.data?.user?.email;
+  const status = session?.status;
+  const userData = session.data?.user;
+  // console.log(session);
+  let userName = userData?.name || userData?.email;
+  if (userName && userName.includes(' ')) {
+    userName = userName.split(' ')[0];
+  }
+  useEffect(()=>{
+    userName = userData?.name ? userData?.name : userData?.email;
+  },[])
 
   return (
-    <header className="flex justify-between items-center "> 
+    <header className="flex justify-between items-center sticky top-3 bg-white"> 
       <Link className="text-primary font-bold text-2xl " href="">
           ST PIZZA
       </Link>

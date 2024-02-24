@@ -1,24 +1,27 @@
 "use client"
 
-import {signIn} from "next-auth/react";
+import {signIn, useSession} from "next-auth/react";
 import Link from "next/link"
 import Image from"next/image"
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const LoginPage = () => {
+    // const {data: session, status} = useSession();;
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loggingInProgress, setLoggingInProgress] = useState(false);
     // const [error, setError] = useState(false)
 
-    const handleFormSubmit =async (e)=>{
-        e.preventDefault();
-        // setError(false);
+    async function handleFormSubmit(ev) {
+        
+        ev.preventDefault();
         setLoggingInProgress(true);
-            await signIn("credentials",{email,password, callbackUrl:"/"})
-        setLoggingInProgress(false);
-    }
 
+        await signIn('credentials', {email, password, callbackUrl:"/"});
+
+        setLoggingInProgress(false);
+      }
     const handleGoogleSignIn = async () => {
         await signIn('google',{callbackUrl:"/"});
       };
