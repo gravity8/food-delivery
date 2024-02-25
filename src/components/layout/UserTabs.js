@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation"
 const UserTabs = ({isAdmin}) => {
     const path = usePathname();
     return (
-      <div className="flex gap-2 tabs justify-center p-4 my-6 sticky top-14 bg-white">
+      <div className="flex gap-2 tabs justify-center p-4 my-6 sticky top-14 bg-white z-10">
             <Link 
                 className={path==="/profile" ? "active": ""} 
                 href={"/profile"}
@@ -23,7 +23,7 @@ const UserTabs = ({isAdmin}) => {
                         Categories
                     </Link>
                     <Link 
-                        className={path==="/menu-items" ? "active": ""}
+                        className={path.includes("menu-items") ? "active": ""}
                         href={"/menu-items"}
                     >
                         Menu Items

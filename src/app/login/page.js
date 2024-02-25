@@ -59,6 +59,7 @@ const LoginPage = () => {
             {/* {err} */}
             <button 
             type="submit"
+            className="w-full"
             disabled={loggingInProgress}
             > Login </button>
             <div

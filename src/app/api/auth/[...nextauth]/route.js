@@ -13,6 +13,9 @@ mongoose.connect(process.env.MONGO_URL);
 export const authOptions = {
   secret: process.env.SECRET,
   adapter: MongoDBAdapter(clientPromise),
+  pages : {
+    signOut: "/login",
+  },
   session: {
     strategy : "jwt",
   },
@@ -60,16 +63,17 @@ export const authOptions = {
       },
     },
   },
-  callbacks: {
-    async signIn({ user }) {
-      const { email } = user;
-      const existingUser = await User.findOne({ email });
-      if (existingUser) {
-        return existingUser; // Link the Google account to the existing user
-      }
-      return user; // Create a new user if no existing account found
-    },
-  },
+
+  // callbacks: {
+  //   async signIn({ user }) {
+  //     const { email } = user;
+  //     const existingUser = await User.findOne({ email });
+  //     if (existingUser) {
+  //       return existingUser; // Link the Google account to the existing user
+  //     }
+  //     return user; // Create a new user if no existing account found
+  //   },
+  // },
 };
 
 // export async function isAdmin() {

@@ -21,10 +21,12 @@ export const PUT = async (req)=>{
     return Response.json(true)
 }
 
-export const DELETE = async (req)=>{
-    const {_id} = await req.json();
-
-    await Category.deleteOne({_id});
-
+export async function DELETE(req) {
+    mongoose.connect(process.env.MONGO_URL);
+    const url = new URL(req.url);
+    const _id = url.searchParams.get('_id');
+    // if (await isAdmin()) {
+      await Category.deleteOne({_id});
+    // }
     return Response.json(true);
-}
+  }

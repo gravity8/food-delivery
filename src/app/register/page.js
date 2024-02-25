@@ -72,6 +72,7 @@ const RegisterPage = () => {
             {/* {err} */}
             <button 
             type="submit"
+            className="w-full"
             disabled={creatingUser}
             > Register </button>
             <div

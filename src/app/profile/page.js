@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { Bars } from 'react-loader-spinner'
 
 import UserTabs from "@/components/layout/UserTabs"
+import EditableImage from "@/components/layout/EditableImage"
 
 
 
@@ -83,37 +84,7 @@ const ProfilePage = () => {
             error: "Something went wrong!"
         })
     }
-
-    const handleImageChange = async (e) =>{
-        const files = e.target.files;
-
-        if(files?.length === 1){
-            const data = new FormData();
-            data.set('file', files[0])
-    
-           const uploadPromise =  fetch("/api/upload",{
-            method: "POST",
-            body: data
-            }).then((response) =>{
-                if(response.ok) {
-                    return response.json().then(link=>{
-                        setUserImage(link);
-
-                    });
-                }
-                throw new Error("Something went wrong!");
-            })
-                
-
-            await toast.promise(uploadPromise,{
-                loading: "Uploading Image...",
-                success: "Image Uploaded!",
-                error: "Something went wrong!"
-            })
-            
-        }
-       
-    }   
+  
 
   return (
     <div className="mt-8">
@@ -129,7 +100,7 @@ const ProfilePage = () => {
                 wrapperStyle={{justifyContent:"center",alignItems:"center", height:"80vh"}}    
                 wrapperClass=""
                 visible={true}
-                />
+            />
             
             )
             
@@ -139,27 +110,8 @@ const ProfilePage = () => {
         <UserTabs isAdmin = {isAdmin}/>
         <div className="max-w-md mx-auto ">
             <div className="flex gap-4">
-                <div className=" p-2 rounded-lg relative self-start pt-0 max-w-[120px] -z-10">
-                    {
-                        userImage && (
-                            <Image 
-                            draggable="false"
-                            className={"rounded-lg w-full h-full mb-1"} 
-                            src={userImage} 
-                            alt={"avatar"} 
-                            width={250} 
-                            height={250}
-                            />
-                        )
-                    }
-                   
-                    <label>
-                        <input 
-                        type="file" 
-                        onChange={handleImageChange} 
-                        hidden />
-                        <span className="button">Edit</span> 
-                    </label>
+                <div className=" p-2 rounded-lg relative self-start pt-0 max-w-[120px] ">
+                    <EditableImage link={userImage} setLink={setUserImage}/>
                    
                 </div>
                 <form className="grow" onSubmit={handleProfileUpdate}>

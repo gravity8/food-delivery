@@ -6,7 +6,12 @@ import {useProfile} from "@/components/UseProfile"
 import { redirect } from "next/navigation";
 import { Bars } from "react-loader-spinner";
 import toast from "react-hot-toast";
+
 import { FaTrash } from "react-icons/fa6";
+import { FaPen } from "react-icons/fa";
+import { FaXmark } from "react-icons/fa6";
+
+import DeleteItemButton from "@/components/layout/DeleteItemButton";
 
 const CategoriesPage = () => {
 
@@ -19,13 +24,12 @@ const CategoriesPage = () => {
         fetchCategory();
     },[])
 
-    const fetchCategory = ()=>{
-        fetch("/api/categories").then(response=>{
-            response.json().then(categories=>{
-                setCategories(categories)
-            })
-        })
+    const fetchCategory = async () => {
+        const response = await fetch("/api/categories");
+        const categories = await response.json();
+        setCategories(categories);
     }
+
     const {loading, data} = useProfile();
     if(data && !data.admin){
         redirect("/")
@@ -63,26 +67,25 @@ const CategoriesPage = () => {
         })
         setEditCategory(null)
     }
-
-    const handleDeleteCategory = async (c)=>{
-
-        toast.promise(
-            fetch("/api/categories",{
-                method: "DELETE",
-                headers: {
-                    "Content-Type" : "application/json",
-                },
-                body : JSON.stringify({_id: c._id})
-            }),
-            {
-                loading: "Deleting category",
-                success: "Categoty deleted",
-                error: "Error deleting category"
-            }
-        )
-        setDeleteCategory(null);
+    async function handleDeleteClick(_id) {
+        const promise = new Promise(async (resolve, reject) => {
+          const res = await fetch('/api/categories?_id='+_id, {
+            method: 'DELETE',
+          });
+          if (res.ok)
+            resolve();
+          else
+            reject();
+        });
+    
+        await toast.promise(promise, {
+          loading: 'Deleting...',
+          success: 'Deleted',
+          error: 'Error',
+        });
+    
         fetchCategory();
-    }
+      }
 
   return (
     <>
@@ -101,25 +104,36 @@ const CategoriesPage = () => {
                 <section className="mt-8 max-w-md mx-auto" >
                     <UserTabs isAdmin={data.admin}/>
                     <form className="mt-8" onSubmit={handleCategorySubmit}>
-                        <div className="flex items-center gap-2">
-                            <div className="grow">
-                                 <label>{editCategory ? "Update category name: ":  "New category name"}</label>
-                                 {editCategory && 
-                                    <b>{editCategory.name}</b>
-                                 }
-                                <input 
-                                    type="text"
-                                    value={categoryName}
-                                    onChange={(e)=>setCategoryName(e.target.value)}
-                                />
-                            </div>
-                            <button 
-                                type="submit" 
-                                className="mt-3"
-                                disabled={!categoryName}
-                            >{editCategory? "Update" :"Create"}</button>
+                        <div className="flex gap-2 items-end">
+                        <div className="grow">
+                            <label>
+                            {editCategory ? 'Update category' : 'New category name'}
+                            {editCategory && (
+                                <>: <b>{editCategory.name}</b></>
+                            )}
+                            </label>
+                            <input type="text"
+                                value={categoryName}
+                                onChange={ev => setCategoryName(ev.target.value)}
+                            />
                         </div>
-                       
+                        <div className="pb-2 flex gap-2">
+                            <button 
+                            disabled={!categoryName}
+                            className="border border-primary" type="submit">
+                            {editCategory ? 'Update' : 'Create'}
+                            </button>
+                            {editCategory && <button
+                            type="button"
+                            className="button"
+                            onClick={() => {
+                                setEditCategory(null);
+                                setCategoryName('');
+                            }}>
+                            <FaXmark className="mt-1"/>
+                            </button>}
+                        </div>
+                        </div>
                     </form>
                     <div>
                         {
@@ -131,28 +145,26 @@ const CategoriesPage = () => {
                         {
                             categories.length>0 &&
                                 categories.map((c)=>(
-                                <>
-                                    <div className="flex items-center gap-2">
+                                    <div className="flex items-start gap-2" key={c._id}>
                                         <div 
-                                            onClick={()=>{
-                                                setEditCategory(c)
-                                                setCategoryName(c.name)
-                                            }}
-                                            className="flex grow bg-gray-200 rounded-xl mb-2 p-2 px-4 gap-1 cursor-pointer"
+                                            className="flex bg-gray-200 w-full justify-between rounded-xl mb-2 p-2 px-4 gap-1 cursor-pointer"
                                         >
-                                            <span>{c.name}</span>
-                                        </div>
-                                        <div onClick={()=>{
-                                                
-                                                handleDeleteCategory(c)
-                                            }}>
-                                            <FaTrash                                  
-                                                className="mb-2 text-red-500 cursor-pointer"
-                                            />
+                                            <span className="mt-1">{c.name}</span>
+                                            <div className="flex items-center gap-2">
+                                                <button 
+                                                    onClick={()=>{
+                                                        setEditCategory(c)
+                                                        setCategoryName(c.name)
+                                                    }} 
+                                                    className="button hover:bg-white">
+                                                    <FaPen />
+                                                </button>
+                                                <DeleteItemButton label={<FaTrash />} onDelete={()=>handleDeleteClick(c._id)}/>
+                                            </div>
                                         </div>
                                         
+                                        
                                     </div>
-                                </>
                                 )
                                 
                             )
