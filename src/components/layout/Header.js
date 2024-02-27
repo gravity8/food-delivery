@@ -2,14 +2,16 @@
 // import { getSession } from "next-auth";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+import { CartContext } from "../AppContext";
 
 const Header = () => {
 
+  const {cartProducts} = useContext(CartContext)
   const session = useSession();
   const status = session?.status;
   const userData = session.data?.user;
-  // console.log(session);
+
   let userName = userData?.name || userData?.email;
   if (userName && userName.includes(' ')) {
     userName = userName.split(' ')[0];
@@ -25,9 +27,9 @@ const Header = () => {
       </Link>
       <nav className="flex gap-8 text-gray-500 font-semibold items-center">
           <Link href={"/"}>Home</Link>
-          <Link href={""}>Menu</Link>
-          <Link href={""}>About</Link>
-          <Link href={""}>Contact</Link>
+          <Link href={"/menu"}>Menu</Link>
+          <Link href={"/#about"}>About</Link>
+          <Link href={"/#contact"}>Contact</Link>
           
       </nav>
       <nav className="flex gap-4 text-gray-500 font-semibold items-center">
@@ -61,6 +63,8 @@ const Header = () => {
             </Link>
           </>
         }
+        
+        <Link href={"/cart"}> Cart ({cartProducts.length})</Link>
 
       </nav>
     </header>

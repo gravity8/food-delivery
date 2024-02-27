@@ -7,7 +7,7 @@ import { Bars } from "react-loader-spinner";
 import Link from "next/link";
 
 import UserTabs from "@/components/layout/UserTabs"
-import { useProfile } from "@/components/UseProfile";
+import { useProfile } from "@/components/useProfile";
 
 import MenuItemForm from "@/components/layout/MenuItemForm"
 import Left from "@/components/icons/Left"
@@ -37,7 +37,6 @@ const EditMenuItemPage = () => {
         e.preventDefault();
         
         data = {...data, _id:id}
-        console.log(data)
         const savingPromise = new Promise(async (resolve, reject)=>{
             const response =await  fetch("/api/menu-items",{
                 method: "PUT",
@@ -101,7 +100,7 @@ const EditMenuItemPage = () => {
                     />
                 ):
                 (
-                    <section className="mt-8 max-w-md mx-auto">
+                    <section className="mt-8 max-w-2xl mx-auto">
                         <UserTabs isAdmin={data.admin}/>
                         <div className="max-w-2xl mx-auto mt-8">
                             <Link href={'/menu-items'} className="button">
@@ -110,8 +109,8 @@ const EditMenuItemPage = () => {
                             </Link>
                         </div>
                         <MenuItemForm menuItem={menuItem} onSubmit={handleFormSubmit}/>
-                        <div className="max-w-md mx-auto mt-2">
-                            <div className="max-w-xs ml-auto pl-4">
+                        <div className="max-w-[475px] ml-auto mt-2">
+                            <div className="max-w-xl ml-auto pl-4">
                                 <DeleteItemButton
                                     label="Delete this menu item"
                                     onDelete={handleDeleteClick}

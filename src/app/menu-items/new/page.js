@@ -65,7 +65,7 @@ const newMenuItemPage = () =>{
                     />
                 ):
                 (
-                    <section className="mt-8 max-w-md mx-auto">
+                    <section className="mt-8 max-w-2xl mx-auto">
                         <UserTabs isAdmin={data.admin}/>
                         <div className="max-w-2xl mx-auto mt-8">
                             <Link href={'/menu-items'} className="button">

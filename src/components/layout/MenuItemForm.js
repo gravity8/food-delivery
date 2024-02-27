@@ -23,8 +23,6 @@ const MenuItemForm = ({onSubmit, menuItem}) => {
         })
         
     },[])
-
-    console.log(category)
   return (
     <form 
         className="mt-8" 

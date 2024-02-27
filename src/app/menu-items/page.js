@@ -7,7 +7,7 @@ import { Bars } from "react-loader-spinner";
 import Link from "next/link";
 
 import UserTabs from "@/components/layout/UserTabs"
-import { useProfile } from "@/components/UseProfile"
+import { useProfile } from "@/components/useProfile"
 import Image from "next/image";
 
 
@@ -51,7 +51,7 @@ const MenuItemsPage = () => {
                 visible={true}
             />
         ):(
-            <section className="mt-8 max-w-md mx-auto">
+            <section className="mt-8 max-w-2xl mx-auto">
                 <UserTabs isAdmin={data.admin}/>
                 <div className="mt-8">
                     <Link 

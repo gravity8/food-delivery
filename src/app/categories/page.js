@@ -2,7 +2,7 @@
 
 import UserTabs from "@/components/layout/UserTabs"
 import { useState, useEffect } from "react";
-import {useProfile} from "@/components/UseProfile"
+import {useProfile} from "@/components/useProfile"
 import { redirect } from "next/navigation";
 import { Bars } from "react-loader-spinner";
 import toast from "react-hot-toast";
@@ -101,7 +101,7 @@ const CategoriesPage = () => {
                     visible={true}
                 />
             ) : (
-                <section className="mt-8 max-w-md mx-auto" >
+                <section className="mt-8 max-w-2xl mx-auto" >
                     <UserTabs isAdmin={data.admin}/>
                     <form className="mt-8" onSubmit={handleCategorySubmit}>
                         <div className="flex gap-2 items-end">
