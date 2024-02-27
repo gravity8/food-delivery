@@ -1,18 +1,23 @@
 "use client"
 
 import {signIn, useSession} from "next-auth/react";
+import { redirect} from "next/navigation";
 import Link from "next/link"
 import Image from"next/image"
 import { useState } from "react";
 import toast from "react-hot-toast";
 
 const LoginPage = () => {
-    // const {data: session, status} = useSession();;
+
+    const {data, status} = useSession();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loggingInProgress, setLoggingInProgress] = useState(false);
     // const [error, setError] = useState(false)
 
+    if (status==="authenticated"){
+        redirect("/")
+    }
     async function handleFormSubmit(ev) {
         
         ev.preventDefault();

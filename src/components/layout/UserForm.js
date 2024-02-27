@@ -2,11 +2,12 @@
 import { useEffect, useState } from "react";
 
 import EditableImage from "@/components/layout/EditableImage"
+import AddressInput from "@/components/layout/AddressInput"
 
 const UserForm = ({user, onSave}) => {
     const [userName,setUserName] = useState(user?.name || "");
     const [userImage, setUserImage] = useState(user?.image || "");
-    const [phoneNumber, setPhoneNumber] = useState(user?.phone || "");
+    const [phone, setPhone] = useState(user?.phone || "");
     const [streetAddress, setStreetAddress] = useState(user?.streetAddress || "");
     const [city, setCity] = useState(user?.city || "");
     const [postalCode, setPostalCode] = useState(user?.postalCode || "");
@@ -15,13 +16,20 @@ const UserForm = ({user, onSave}) => {
     useEffect(() => {
         setUserName(user?.name || "");
         setUserImage(user?.image || "");
-        setPhoneNumber(user?.phone || "");
+        setPhone(user?.phone || "");
         setStreetAddress(user?.streetAddress || "");
         setCity(user?.city || "");
         setPostalCode(user?.postalCode || "");
         setCountry(user?.country || "");
     }, [user]);
 
+    function handleAddressChange(propName, value) {
+        if (propName === 'phoneNumber') setPhone(value);
+        if (propName === 'streetAddress') setStreetAddress(value);
+        if (propName === 'postalCode') setPostalCode(value);
+        if (propName === 'city') setCity(value);
+        if (propName === 'country') setCountry(value);
+      }
   return (
     <div className="flex gap-4">
         <div className=" p-2 rounded-lg relative self-start pt-0 max-w-[120px] ">
@@ -44,48 +52,11 @@ const UserForm = ({user, onSave}) => {
                 disabled={true} 
                 value={user?.email}
             />
-            <label> Phone number</label>
-            <input 
-                type= "tel" 
-                placeholder="Phone Number"
-                value={phoneNumber}
-                onChange={e=> setPhoneNumber(e.target.value)}
-            />
-            <label >Street address</label>
-            <input 
-                type="text" 
-                placeholder="Street Address"
-                value={streetAddress}
-                onChange={e=> setStreetAddress(e.target.value)}
-            />
-            
-            <div className="flex gap-4">
-                <div className="flex flex-col grow">
-                    <label >Postal code</label>
-                    <input 
-                        type="text" 
-                        placeholder="Postal Code"
-                        value={postalCode}
-                        onChange={e=> setPostalCode(e.target.value)}
-                    />
-                </div>
-                <div className="flex flex-col grow">
-                    <label >City</label>
-                    <input 
-                        type="text"
-                        placeholder="City"
-                        value={city}
-                        onChange={e=> setCity(e.target.value)}
-                    />  
-                </div>
-                
-            </div>
-            <label>Country</label>
-            <input 
-                type="text" 
-                placeholder="Country"
-                value={country}
-                onChange={e=> setCountry(e.target.value)}
+            <AddressInput 
+            addressProps={{
+                phone, streetAddress, city,postalCode, country
+            }} 
+            setAddressProps={handleAddressChange}
             />
             <button
                 className="w-full" 

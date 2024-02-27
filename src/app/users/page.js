@@ -1,5 +1,5 @@
 "use client"
-import { redirect } from "next/dist/server/api-utils";
+import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 

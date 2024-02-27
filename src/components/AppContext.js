@@ -1,9 +1,22 @@
 "use client"
-
-import {SessionProvider} from "next-auth/react"
+import {SessionProvider, useSession} from "next-auth/react"
 import { createContext, useEffect, useState } from "react"
 
+import toast from "react-hot-toast";
+
 export const CartContext= createContext();
+export const cartProductPrice = (cartProduct)=>{
+    let price = Number(cartProduct.basePrice);
+    if (cartProduct.size) {
+      price += cartProduct.size.price;
+    }
+    if (cartProduct.extras?.length > 0) {
+      for (const extra of cartProduct.extras) {
+        price += extra.price;
+      }
+    }
+    return price;
+}
 
 export const AppProvider =({children})=>{
     const [cartProducts, setCartProducts] = useState([]);
@@ -15,16 +28,37 @@ export const AppProvider =({children})=>{
         setCartProducts(JSON.parse(ls.getItem("cart")))
      }
     },[])
+
+    
     
     const removeCartProduct = (indexToRemove) =>{
-        setCartProducts(products=>{
-            const newCartProduct = products.filter((v,index)=>{index!==indexToRemove})
-            saveCartProductsToLocalStorage(newCartProduct)
-            return newCartProduct
-        })
+        setCartProducts(prevCartProducts => {
+            const newCartProducts = prevCartProducts
+              .filter((v,index) => index !== indexToRemove);
+
+            fetch("/api/cart",{
+                method: "PUT",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(newCartProducts)
+            })
+            
+            saveCartProductsToLocalStorage(newCartProducts);
+            return newCartProducts;
+          });
+          toast.success('Product removed');
+
     }
 
-    const clearCart =()=>{
+    const clearCart =async()=>{
+        const allCartItems = cartProducts;
+        console.log(allCartItems)
+       const data =  fetch("/api/cart",{
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(allCartItems)
+        })
         setCartProducts([])
         saveCartProductsToLocalStorage([])
     }
@@ -41,10 +75,11 @@ export const AppProvider =({children})=>{
             saveCartProductsToLocalStorage(newProducts)
             return newProducts;
         })
+
     }
     return (
         <SessionProvider>
-            <CartContext.Provider value={{cartProducts, setCartProducts, addToCart, removeCartProduct, clearCart}}>
+            <CartContext.Provider value={{cartProducts, setCartProducts, addToCart, removeCartProduct, clearCart, cartProductPrice}}>
                 {children}
             </CartContext.Provider>
         </SessionProvider>

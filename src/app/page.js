@@ -1,9 +1,30 @@
+"use client"
+
+import {useEffect, useContext} from "react"
 import { Hero } from "@/components/layout/Hero";
 import HomeMenu from "@/components/layout/HomeMenu";
 import Sectionheaders from "@/components/layout/Sectionheaders";
+import { useProfile } from "@/components/useProfile";
+import { useSession } from "next-auth/react";
+import { CartContext } from "@/components/AppContext";
 
 
 export default function Home() {
+  const {setCartProducts} = useContext(CartContext);
+  const {status} = useSession();
+  const fetchCartItems = async()=>{
+    await fetch("/api/cart").then(res=>{
+      res.json().then(cartItems=>{
+        setCartProducts(cartItems[0].allCartItems)
+      })
+    })
+  }
+  useEffect(() => {
+    if(status==="authenticated"){
+      console.log("got here")
+      fetchCartItems()
+    }
+  }, [status])
   return (
     <>
       <Hero />

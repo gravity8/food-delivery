@@ -7,7 +7,6 @@ import { useEffect, useState } from "react"
 
 const HomeMenu = () => {
     const [bestSellers, setBestSellers] = useState([])
-    console.log(bestSellers.length)
     useEffect(()=>{
         fetch("/api/menu-items").then(res=>{
             res.json().then(menuItems =>{

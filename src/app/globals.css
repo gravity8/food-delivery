@@ -62,5 +62,10 @@ div.tabs > *.active{
 }
 
 .flying-button-parent button{
-    @apply border-primary bg-primary text-white rounded-full;
+    @apply border-primary bg-primary text-white rounded-full  ;
+    @apply border border-gray-300 w-full py-2;
+}
+
+nav.nav-links>*.active{
+    @apply text-primary
 }

@@ -8,7 +8,3 @@ export const GET = async() =>{
     const users = await User.find();
     return Response.json(users)
 }
-
-export const POST = async() =>{
-
-}
