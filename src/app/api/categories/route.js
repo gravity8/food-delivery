@@ -29,4 +29,4 @@ export async function DELETE(req) {
       await Category.deleteOne({_id});
     // }
     return Response.json(true);
-  }
+}

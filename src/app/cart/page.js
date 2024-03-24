@@ -5,6 +5,7 @@ import Sectionheaders from "@/components/layout/Sectionheaders";
 import { useProfile } from "@/components/useProfile"
 import { useContext } from "react";
 import { Bars } from "react-loader-spinner";
+import toast from "react-hot-toast";
 
 import CartProduct from "@/components/layout/CartProduct"
 import AddressInput from "@/components/layout/AddressInput";
@@ -45,11 +46,15 @@ const CartPage = () => {
         setAddress(prevAddress => ({...prevAddress, [propName]:value}));
       }
 
+  
+    
       //To sum up all the products in cart
-        let subtotal = 0;
+      let subtotal = 0;
+      if(cartProducts){
         for (const p of cartProducts) {
             subtotal += cartProductPrice(p);
         }
+      }
 
         async function proceedToCheckout(ev) {
             ev.preventDefault();
@@ -66,6 +71,7 @@ const CartPage = () => {
               }).then(async (response) => {
                 if (response.ok) {
                   resolve();
+
                   window.location = await response.json();
                 } else {
                   reject();
@@ -79,6 +85,7 @@ const CartPage = () => {
               error: 'Something went wrong... Please try again later',
             })
           }
+
   return (
     <>
         {

@@ -27,10 +27,13 @@ const EditMenuItemPage = () => {
     useEffect(()=>{
 
         fetch("/api/menu-items").then(res=>{
-            res.json().then(menuitems=>{
-                const item = menuitems.find(i=> i._id===id)
-                setMenuItem(item)
-            })
+            if(res.ok){
+                res.json().then(menuitems=>{
+                        const item = menuitems.find(i=> i._id===id)
+                        setMenuItem(item)
+                    })
+            }
+            
         })
     },[])
     const handleFormSubmit = (e, data) =>{

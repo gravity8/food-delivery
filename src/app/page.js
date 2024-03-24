@@ -14,9 +14,15 @@ export default function Home() {
   const {status} = useSession();
   const fetchCartItems = async()=>{
     await fetch("/api/cart").then(res=>{
-      res.json().then(cartItems=>{
-        setCartProducts(cartItems[0].allCartItems)
-      })
+      if(res.ok){
+        res.json().then(cartItems=>{
+        console.log(cartItems)
+          if(cartItems.length>0){
+            setCartProducts(cartItems[0]?.allCartItems)
+          }
+        })
+      }
+      
     })
   }
   useEffect(() => {

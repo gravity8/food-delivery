@@ -7,10 +7,13 @@ export const useProfile=()=>{
     useEffect(()=>{
         setLoading(true)
         fetch("/api/profile").then(response =>{
-            response.json().then(data=>{
+            if(response.ok){
+                response.json().then(data=>{
                 setData(data)
                 setLoading(false)
-            })
+                })
+            }
+            
         })
 
     },[])

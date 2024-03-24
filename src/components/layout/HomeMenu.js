@@ -9,10 +9,13 @@ const HomeMenu = () => {
     const [bestSellers, setBestSellers] = useState([])
     useEffect(()=>{
         fetch("/api/menu-items").then(res=>{
+        if(res.ok){
             res.json().then(menuItems =>{
                 setBestSellers(menuItems.slice(-3));
 
             })
+        }
+            
         })
     },[])
   return (

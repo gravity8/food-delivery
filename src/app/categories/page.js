@@ -18,7 +18,6 @@ const CategoriesPage = () => {
     const [categoryName, setCategoryName] = useState("");
     const [categories, setCategories] = useState([]);
     const [editCategory, setEditCategory] = useState(null);
-    const [deleteCategory, setDeleteCategory] = useState(null);
 
     useEffect(()=>{
         fetchCategory();

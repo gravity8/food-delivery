@@ -14,6 +14,8 @@ const Header = () => {
   const status = session?.status;
   const userData = session.data?.user;
 
+  // console.log(cartProducts)
+
   let userName = userData?.name || userData?.email;
   if (userName && userName.includes(' ')) {
     userName = userName.split(' ')[0];

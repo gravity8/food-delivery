@@ -1,5 +1,4 @@
 import clientPromise from "@/libs/mongoConnect";
-// import {UserInfo} from "@/models/UserInfo";
 import bcrypt from "bcrypt";
 import {User} from "@/app/models/User"
 import NextAuth, {getServerSession} from "next-auth";
@@ -14,7 +13,7 @@ export const authOptions = {
   secret: process.env.SECRET,
   adapter: MongoDBAdapter(clientPromise),
   pages : {
-    signOut: "/login",
+    signOut: "@/app/login",
   },
   session: {
     strategy : "jwt",
@@ -28,7 +27,7 @@ export const authOptions = {
       name: 'Credentials',
       id: 'credentials',
       credentials: {
-        username: { label: "Email", type: "email", placeholder: "test@example.com" },
+        email: { label: "Email", type: "email", placeholder: "test@example.com" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
@@ -59,7 +58,7 @@ export const authOptions = {
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'Lax',
         path: '/',
-        maxAge: 60 * 60 * 24 * 7, // 1 week
+        maxAge: 60 * 60 * 24 * 1
       },
     },
   },

@@ -20,9 +20,11 @@ const EditUserPage = () => {
     }
     useEffect(() => {
         fetch('/api/profile?_id='+id).then(res => {
-          res.json().then(user => {
-            setUser(user);
-          });
+            if(res.ok){
+                res.json().then(user => {
+                    setUser(user);
+                });
+            }
         })
     }, []);
 

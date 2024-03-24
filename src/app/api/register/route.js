@@ -1,8 +1,10 @@
+
 import mongoose from "mongoose";
 import { User } from "../../models/User";
 import bcrypt from 'bcrypt';
 
 
+// mongoose.connect(process.env.MONGO_URL);
 
 export const POST = async (req) => {
     try {

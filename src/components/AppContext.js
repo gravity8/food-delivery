@@ -24,12 +24,10 @@ export const AppProvider =({children})=>{
     const ls = typeof window != "undefined" ? window.localStorage : null;
 
     useEffect(()=>{
-     if(ls && ls.getItem("cart")){
+     if(ls && ls.getItem("cart-food-delivery")){
         setCartProducts(JSON.parse(ls.getItem("cart")))
      }
     },[])
-
-    
     
     const removeCartProduct = (indexToRemove) =>{
         setCartProducts(prevCartProducts => {
@@ -64,7 +62,7 @@ export const AppProvider =({children})=>{
     }
     const saveCartProductsToLocalStorage = (cartProducts) =>{
         if(ls){
-            ls.setItem("cart", JSON.stringify(cartProducts))
+            ls.setItem("cart-food-delivery", JSON.stringify(cartProducts))
         }
     }
    
@@ -72,6 +70,11 @@ export const AppProvider =({children})=>{
         setCartProducts(prevProducts =>{
             const cartProduct = {...product, size, extras}
             const newProducts = [...prevProducts, cartProduct ]
+            fetch("/api/cart",{
+                method: "PUT",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(newProducts)
+            })
             saveCartProductsToLocalStorage(newProducts)
             return newProducts;
         })

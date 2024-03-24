@@ -34,10 +34,12 @@ const ProfilePage = () => {
                     "Content-Type": "application/json",
                 }
             }).then(response =>{
-                response.json().then(data =>{
-                    setUsers(data)
-                })
-                setProfileFetched(true);
+                if(response.ok){
+                    response.json().then(data =>{
+                        setUsers(data)
+                    })
+                    setProfileFetched(true);
+                }
             })
         }
     },[session, status])
@@ -83,7 +85,7 @@ const ProfilePage = () => {
         :
         (
         <>
-        <UserTabs isAdmin = {data.admin}/>
+            <UserTabs isAdmin = {data.admin}/>
             <div className="max-w-2xl mx-auto ">
                 <UserForm user={user} onSave={handleProfileUpdate}/>
             </div>

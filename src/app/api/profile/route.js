@@ -48,5 +48,4 @@ export const GET =async (req) =>{
 
     return Response.json({...user, ...userInfo});
 
-    // return Response.json(true)
 }

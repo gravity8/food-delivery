@@ -5,14 +5,12 @@ import { authOptions } from "../auth/[...nextauth]/route"
 import { User } from "@/app/models/User"
 
 
-mongoose.connect(process.env.MONGO_URL)
 export const POST =async (req)=>{
+    mongoose.connect(process.env.MONGO_URL)
     const session = await getServerSession(authOptions);
     const email = session.user?.email
     const body = await req.json();
-    // Remove the _id field to let MongoDB generate a unique identifier
-    // Remove the _id field from each object in the array
-    // Create an array to hold cleaned body
+
     const cleanedbody = [];
 
     // Iterate over each item in the original body array
@@ -36,6 +34,7 @@ export const POST =async (req)=>{
 }
 
 export const PUT = async (req) =>{
+    mongoose.connect(process.env.MONGO_URL)
     const body = await req.json();
     const session = await getServerSession(authOptions);
     const email = session.user?.email
@@ -50,15 +49,16 @@ export const PUT = async (req) =>{
         // Add the cleaned item to the array
         cleanedData.push(item);
     }
-    
     await CartContent.findOneAndUpdate({email}, {email:email, allCartItems: cleanedData})
     return Response.json(true)
 }
 export const GET = async () =>{
+    mongoose.connect(process.env.MONGO_URL)
     const session = await getServerSession(authOptions);
     const email = session.user?.email
+    console.log(email)
     return Response.json(
-        await CartContent.find({email: email})
+        await CartContent.findOne({email: email})
         
     )    
 }

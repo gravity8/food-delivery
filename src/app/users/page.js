@@ -19,9 +19,11 @@ const UsersPage = () => {
 
   useEffect(()=>{
     fetch("/api/users").then(res=>{
-      res.json().then(users=>{
+      if(res.ok){
+        res.json().then(users=>{
         setUsers(users)
       })
+      }
     })
   },[])
   return (
