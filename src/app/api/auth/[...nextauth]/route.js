@@ -5,7 +5,6 @@ import NextAuth, {getServerSession} from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { MongoDBAdapter } from "@auth/mongodb-adapter"
-import { UserInfo } from "@/app/models/UserInfo";
 
 const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGO_URL);
@@ -69,30 +68,7 @@ export const authOptions = {
     },
   },
 
-  // callbacks: {
-  //   async signIn({ user }) {
-  //     const { email } = user;
-  //     const existingUser = await User.findOne({ email });
-  //     if (existingUser) {
-  //       return existingUser; // Link the Google account to the existing user
-  //     }
-  //     return user; // Create a new user if no existing account found
-  //   },
-  // },
 };
-
-export async function isAdmin() {
-  const session = await getServerSession(authOptions);
-  const userEmail = session?.user?.email;
-  if (!userEmail) {
-    return false;
-  }
-  const userInfo = await UserInfo.findOne({email:userEmail});
-  if (!userInfo) {
-    return false;
-  }
-  return userInfo.admin;
-}
 
 const handler = NextAuth(authOptions);
 
