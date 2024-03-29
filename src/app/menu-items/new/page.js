@@ -7,8 +7,7 @@ import { Bars } from "react-loader-spinner";
 import Link from "next/link";
 
 import UserTabs from "@/components/layout/UserTabs"
-import { useProfile } from "@/components/UseProfile";
-import EditableImage from "@/components/layout/EditableImage";
+import { useProfile } from "@/components/useProfile";
 import Left from "@/components/icons/Left"
 import MenuItemForm from "@/components/layout/MenuItemForm";
 
