@@ -7,6 +7,7 @@ import {UserInfo} from "@/app/models/UserInfo"
 
 export const PUT = async (req) => {
     mongoose.connect(process.env.MONGO_URL)
+    console.log(req)
     const data = await req.json();
     const {_id,name, image, ...otherUserInfo}= data;
 
@@ -20,6 +21,7 @@ export const PUT = async (req) => {
     }
 
     const user = await User.findOne(filter);
+    // console.log(user)
     await User.updateOne(filter, {name, image});
     await UserInfo.findOneAndUpdate({email:user.email}, otherUserInfo, {upsert:true});
    

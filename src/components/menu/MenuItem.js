@@ -22,7 +22,7 @@ const MenuItem = (menuItem) => {
         return;
       }
       await new Promise(resolve => setTimeout(resolve, 1000));
-      console.log('hiding popup');
+      
       addToCart(menuItem, selectedSize, selectedExtras);
       setShowPopup(false);
     }

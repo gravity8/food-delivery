@@ -24,9 +24,19 @@ export const AppProvider =({children})=>{
     const ls = typeof window != "undefined" ? window.localStorage : null;
 
     useEffect(()=>{
-     if(ls && ls.getItem("cart-food-delivery")){
-        setCartProducts(JSON.parse(ls.getItem("cart")))
-     }
+        fetch("/api/cart").then(res=>{
+            if(res.ok){
+              res.json().then(cartItems=>{
+                if(cartItems.allCartItems?.length>0){
+                  setCartProducts(cartItems?.allCartItems)
+                }
+              })
+            }
+            
+          })
+        if(ls && ls.getItem("cart-food-delivery")){
+            setCartProducts(JSON.parse(ls.getItem("cart")))
+        }
     },[])
     
     const removeCartProduct = (indexToRemove) =>{
@@ -46,17 +56,17 @@ export const AppProvider =({children})=>{
           toast.success('Product removed');
 
     }
-
-    const clearCart =async()=>{
+    const saveAndClearCart = () =>{
         const allCartItems = cartProducts;
-        console.log(allCartItems)
-       const data =  fetch("/api/cart",{
+        fetch("/api/cart",{
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify(allCartItems)
         })
+    }
+    const clearCart =async()=>{
         setCartProducts([])
         saveCartProductsToLocalStorage([])
     }
@@ -82,7 +92,9 @@ export const AppProvider =({children})=>{
     }
     return (
         <SessionProvider>
-            <CartContext.Provider value={{cartProducts, setCartProducts, addToCart, removeCartProduct, clearCart, cartProductPrice}}>
+            <CartContext.Provider value={{
+                cartProducts, setCartProducts, addToCart, removeCartProduct, clearCart, cartProductPrice,saveAndClearCart
+            }}>
                 {children}
             </CartContext.Provider>
         </SessionProvider>

@@ -28,10 +28,10 @@ const MenuItemsPage = () => {
                 }
                 
                 const menuItems = await response.json();
+                console.log(menuItems)
                 setMenuItems(menuItems);
             } catch (error) {
                 console.error(error);
-                // Handle the error as needed, e.g., set an error state
             }
         };
     

@@ -56,7 +56,6 @@ export const GET = async () =>{
     mongoose.connect(process.env.MONGO_URL)
     const session = await getServerSession(authOptions);
     const email = session.user?.email
-    console.log(email)
     return Response.json(
         await CartContent.findOne({email: email})
         

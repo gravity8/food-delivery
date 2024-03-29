@@ -6,6 +6,7 @@ import Link from "next/link"
 import Image from"next/image"
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { Bars } from "react-loader-spinner";
 
 const LoginPage = () => {
 
@@ -13,7 +14,7 @@ const LoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loggingInProgress, setLoggingInProgress] = useState(false);
-    // const [error, setError] = useState(false)
+    const [error, setError] = useState("")
 
     if (status==="authenticated"){
         redirect("/")
@@ -22,14 +23,31 @@ const LoginPage = () => {
         
         ev.preventDefault();
         setLoggingInProgress(true);
-
-        await signIn('credentials', {email, password, callbackUrl:"/"});
-
+        try{
+          const resp =   await signIn('credentials', {redirect: false,email, password, callbackUrl:"/"});
+          switch (resp.status){
+            case 401: {
+                setError("Wrong credential")
+                break;
+            }
+            default: {
+                setError("something went wrong")
+            }
+          }
+          
+        }
+        catch(error){
+        }
         setLoggingInProgress(false);
       }
     const handleGoogleSignIn = async () => {
-        await signIn('google',{callbackUrl:"/"});
-      };
+        try{
+           const resp =  await signIn('google',{callbackUrl:"/"});
+           console.log(resp)
+        }catch(err){
+            console.error(err)
+        }
+    };
   return (
     <section className="mt-8">
         <h1 
@@ -37,53 +55,72 @@ const LoginPage = () => {
         >
             Login
         </h1>
-        {/* {error && (
+        {error && (
             <div className="my-4 text-center text-red-500">
-                An Error has Occurred.<br/>
-                Please try again.
+                {error}
             </div>
-        )} */}
-        <form 
-        className="block max-w-xs mx-auto"
-        onSubmit={handleFormSubmit}
-        >
-            <input 
-            type="email" 
-            placeholder="email" 
-            value={email}
-            onChange={e=>setEmail(e.target.value)}
-            disabled={loggingInProgress}
-            />
-            <input 
-            type="password" 
-            placeholder="password"
-            value={password}
-            onChange={e=>setPassword(e.target.value)}
-            disabled={loggingInProgress}
-            />
-            {/* {err} */}
-            <button 
-            type="submit"
-            className="w-full"
-            disabled={loggingInProgress}
-            > Login </button>
-            <div
-             className="my-4 text-center text-gray-500"
-            >or login with provider</div>
-            <button 
-            type="button"
-            onClick={handleGoogleSignIn}
-            className="flex justify-center items-center gap-4 button"
+        )}
+        {
+            loggingInProgress ?
+                <Bars
+                    height="40"
+                    width="40"
+                    color="#f13a01"
+                    ariaLabel="bars-loading"
+                    wrapperStyle={{justifyContent:"center",alignItems:"center", height:"80vh"}}    
+                    wrapperClass=""
+                    visible={true}
+                />
+            :
+            <form 
+            className="block max-w-xs mx-auto"
+            onSubmit={handleFormSubmit}
             >
-                <Image src={"/google.png"} alt="goggle" width={24} height={24}/>
-                Login with Google
-            </button>
-            <div 
-            className=" text-center my-4"
-            >
-                Don't have an account? <Link className="text-primary hover:underline" href={"/register"}>Register here &raquo;</Link>
-            </div>
-        </form>
+                <input 
+                type="email" 
+                placeholder="email" 
+                value={email}
+                onChange={e=>{
+                    setEmail(e.target.value)
+                    setError("")
+                }}
+                disabled={loggingInProgress}
+                />
+                <input 
+                type="password" 
+                placeholder="password"
+                value={password}
+                onChange={e=>{
+                    setPassword(e.target.value)
+                    setError("")
+                }}
+                disabled={loggingInProgress}
+                />
+                {/* {err} */}
+                <button 
+                type="submit"
+                className="w-full"
+                disabled={loggingInProgress}
+                > Login </button>
+                <div
+                 className="my-4 text-center text-gray-500"
+                >or login with provider</div>
+                <button 
+                type="button"
+                onClick={handleGoogleSignIn}
+                className="flex justify-center items-center gap-4 button"
+                >
+                    <Image src={"/google.png"} alt="goggle" width={24} height={24}/>
+                    Login with Google
+                </button>
+                <div 
+                className=" text-center my-4"
+                >
+                    Don't have an account? <Link className="text-primary hover:underline" href={"/register"}>Register here &raquo;</Link>
+                </div>
+            </form>
+        }
+        
         <div>
 
         </div>

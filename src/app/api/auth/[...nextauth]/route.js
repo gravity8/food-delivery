@@ -5,6 +5,7 @@ import NextAuth, {getServerSession} from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { MongoDBAdapter } from "@auth/mongodb-adapter"
+import { UserInfo } from "@/app/models/UserInfo";
 
 const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGO_URL);
@@ -33,20 +34,25 @@ export const authOptions = {
       async authorize(credentials, req) {
         const email = credentials?.email;
         const password = credentials?.password;
-
+        
         const user = await User.findOne({email});
         const passwordOk = user && bcrypt.compareSync(password, user.password);
-
-        if (passwordOk) {
-          return {
-            id: user._id.toString(), // Use your user ID field
-            email: user.email,
-            name: user.name || null // Optional: Include name if available
-          };
+        try{
+            if (passwordOk) {
+            return {
+              id: user._id.toString(), // Use your user ID field
+              email: user.email,
+              name: user.name || null // Optional: Include name if available
+            };
+          }
+          else{
+            return null;
+          }
         }
-        else{
-          return null;
+        catch(err){
+          console.error(err)
         }
+        
       }
     })
   ],
@@ -75,18 +81,18 @@ export const authOptions = {
   // },
 };
 
-// export async function isAdmin() {
-//   const session = await getServerSession(authOptions);
-//   const userEmail = session?.user?.email;
-//   if (!userEmail) {
-//     return false;
-//   }
-//   const userInfo = await UserInfo.findOne({email:userEmail});
-//   if (!userInfo) {
-//     return false;
-//   }
-//   return userInfo.admin;
-// }
+export async function isAdmin() {
+  const session = await getServerSession(authOptions);
+  const userEmail = session?.user?.email;
+  if (!userEmail) {
+    return false;
+  }
+  const userInfo = await UserInfo.findOne({email:userEmail});
+  if (!userInfo) {
+    return false;
+  }
+  return userInfo.admin;
+}
 
 const handler = NextAuth(authOptions);
 

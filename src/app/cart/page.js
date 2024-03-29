@@ -85,6 +85,14 @@ const CartPage = () => {
               error: 'Something went wrong... Please try again later',
             })
           }
+          if(cartProducts?.length === 0){
+            return(
+              <section className="mt-8 text-center">
+                <Sectionheaders mainHeader={"Cart"}/>
+                <p className="text-gray-500 text-lg text-center py-36">Your shopping cart</p>
+              </section>
+            )
+          }
 
   return (
     <>
@@ -108,11 +116,6 @@ const CartPage = () => {
                     
                     <div className=" mt-4 grid grid-cols-2 gap-6">
                         <div>
-                            {
-                                cartProducts?.length===0 && (
-                                    <div className="text-gray-500 text-lg text-center py-36">No product in your shopping cart</div>
-                                )
-                            }
                             {
                                 cartProducts?.length>0 && cartProducts.map((cartProduct, index)=>(
                                     <CartProduct

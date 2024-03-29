@@ -23,7 +23,6 @@ export const POST = async (req) => {
         return Response.json(createdUser);
     } catch (error) {
         // Handle errors appropriately, e.g., return a custom error response
-        console.error(error);
         return Response.json({ error: error.message }, { status: 400 }); // Example error response
     }
 };

@@ -9,7 +9,7 @@ import { IoExitOutline } from "react-icons/io5";
 
 const Header = () => {
 
-  const {cartProducts,setCartProducts, clearCart} = useContext(CartContext)
+  const {cartProducts,saveAndClearCart} = useContext(CartContext)
   const session = useSession();
   const status = session?.status;
   const userData = session.data?.user;
@@ -25,7 +25,7 @@ const Header = () => {
   },[])
 
   const handleLogout = async () =>{
-    await clearCart()
+    await saveAndClearCart()
     signOut()
   }
   return (

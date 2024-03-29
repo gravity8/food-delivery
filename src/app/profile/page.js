@@ -46,7 +46,6 @@ const ProfilePage = () => {
 
     const handleProfileUpdate = async (e,data) =>{
         e.preventDefault()
-        
         const savingPromise = fetch("/api/profile",{
         method: "PUT",
         headers: {
@@ -67,7 +66,7 @@ const ProfilePage = () => {
   return (
     <div className="mt-8">
 
-        {
+    {
         (loading===true || !profileFetched)? (
             
             <Bars
@@ -84,13 +83,13 @@ const ProfilePage = () => {
             
         :
         (
-        <>
-            <UserTabs isAdmin = {data.admin}/>
-            <div className="max-w-2xl mx-auto ">
-                <UserForm user={user} onSave={handleProfileUpdate}/>
-            </div>
-        </>
-    )
+            <>
+                <UserTabs isAdmin = {data.admin}/>
+                <div className="max-w-2xl mx-auto ">
+                    <UserForm user={user} onSave={handleProfileUpdate}/>
+                </div>
+            </>
+        )
     }
     </div>
     )
