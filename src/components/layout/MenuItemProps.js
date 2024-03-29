@@ -45,7 +45,7 @@ const MenuItemProps = ({name, label, props, setProps}) => {
             <div>
                 {
                     (props.length>0) && props.map((size, index)=>(
-                        <div className="flex gap-2 items-center">
+                        <div key={index} className="flex gap-2 items-center">
                             <div>
                                 <label>Name</label>
                                     <input 

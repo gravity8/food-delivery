@@ -1,3 +1,4 @@
+
 "use client"
 import { useState } from "react";
 
@@ -11,7 +12,7 @@ import { useProfile } from "@/components/useProfile";
 import Left from "@/components/icons/Left"
 import MenuItemForm from "@/components/layout/MenuItemForm";
 
-const newMenuItemPage = () =>{
+const NewMenuItemPage = () =>{
 
     const {loading, data} = useProfile();
     const [redirectToItems, setRedirectToItems] = useState(false)
@@ -81,4 +82,4 @@ const newMenuItemPage = () =>{
     )
 }
 
-export default newMenuItemPage;
+export default NewMenuItemPage;

@@ -67,8 +67,9 @@ const MenuItemsPage = () => {
                     >Edit menu items: </h2>
                     <div className="grid grid-cols-3 gap-2">
                         {
-                            menuItems?.length>0 && menuItems.map((menuItem)=>(
+                            menuItems?.length>0 && menuItems.map((menuItem,index)=>(
                                 <Link 
+                                key={index}
                                 href={"/menu-items/edit/"+menuItem._id}
                                 className="flex bg-gray-200 rounded-lg p-4 flex-col items-center text-center">
                                     <div className="relative w-24 h-24">

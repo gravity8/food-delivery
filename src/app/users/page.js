@@ -44,8 +44,9 @@ const UsersPage = () => {
             <UserTabs isAdmin={data.admin}/>
             <div className="mt-8">
                 {
-                  users.length >0 && users.map(user =>(
-                    <div 
+                  users.length >0 && users.map((user,index) =>(
+                    <div
+                    key={index}
                     className="bg-gray-100 rounded-lg mb-2 p-2 flex justify-between items-center px-5">
                       <div className="grid grid-cols-2 md:grid-cols-3 px-3 gap-4 grow">
                         <div className="text-gray-900">

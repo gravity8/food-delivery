@@ -6,7 +6,7 @@ import {dbTimeForHuman} from "@/libs/datetime";
 import Link from "next/link";
 import {useEffect, useState} from "react";
 
-const page = () => {
+const Orderspage = () => {
   const [orders, setOrders] = useState([]);
   const [loadingOrders, setLoadingOrders] = useState(true);
   const {loading, data:profile} = useProfile();
@@ -66,4 +66,4 @@ const page = () => {
   )
 }
 
-export default page
+export default OrdersPage

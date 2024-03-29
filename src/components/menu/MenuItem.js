@@ -72,8 +72,8 @@ const MenuItem = (menuItem) => {
                   <div className=" py-2">
                     <h3 className="text-gray-700 text-center text-md">Pick your size</h3>
                     {
-                      sizes.map((size)=>(
-                        <label className="flex p-3 border my-2 gap-3 items-center">
+                      sizes.map((size,index)=>(
+                        <label key={index} className="flex p-3 border my-2 gap-3 items-center">
                           <input 
                             onClick={()=>setSelectedSize(size)}
                             checked={selectedSize?.name===size.name}
@@ -96,8 +96,8 @@ const MenuItem = (menuItem) => {
                     <div className=" py-2">
                       <h3 className="text-gray-700 text-center text-md">Pick extra ingredients</h3>
                       {
-                        extraIngredients.map((extraIngredient)=>(
-                          <label className="flex p-3 border my-2 gap-3 items-center">
+                        extraIngredients.map((extraIngredient,index)=>(
+                          <label key={index} className="flex p-3 border my-2 gap-3 items-center">
                             <input 
                               onClick={e=>handleExtrasSelected(e,extraIngredient)}
                               type="checkbox" 
