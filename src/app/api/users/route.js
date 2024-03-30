@@ -1,6 +1,6 @@
 
 import mongoose from 'mongoose'
-// import {User} from "@/app/models/User"
+import {User} from "@/app/models/User"
 import { UserInfo } from "@/app/models/UserInfo";
 
 import clientPromise from "@/libs/mongoConnect";
