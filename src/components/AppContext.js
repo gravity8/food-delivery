@@ -65,15 +65,14 @@ export const AppProvider =({children})=>{
             },
             body: JSON.stringify(allCartItems)
         })
+        clearCart();
     }
     const clearCart =async()=>{
         setCartProducts([])
         saveCartProductsToLocalStorage([])
-        console.log("clearing cart")
     }
 
     const clearCartAfterPayment = () =>{
-        console.log("got here after payment")
         clearCart();
         fetch("/api/cart",{
             method: "POST",
