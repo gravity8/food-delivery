@@ -9,7 +9,7 @@ import { MongoDBAdapter } from "@auth/mongodb-adapter"
 const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGO_URL);
 
-export const authOptions = {
+const authOptions = {
   secret: process.env.SECRET,
   adapter: MongoDBAdapter(clientPromise),
   pages : {
