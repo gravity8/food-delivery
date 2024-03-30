@@ -8,14 +8,14 @@ import { useParams } from 'next/navigation'
 import React, { useContext,useState, useEffect } from 'react'
 
 const OrderPage = () => {
-    const {clearCart, cartProductPrice} = useContext(CartContext);
+    const { cartProductPrice, clearCartAfterPayment} = useContext(CartContext);
     const [order, setOrder] = useState();
     const [loadingOrder, setLoadingOrder] = useState(true);
     const {id} = useParams();
     useEffect(()=>{
         if(typeof window.console !== "undefined"){
             if(window.location.href.includes("clear-cart=1")){
-                clearCart()
+              clearCartAfterPayment()
             }
         }
         if (id) {
@@ -29,6 +29,13 @@ const OrderPage = () => {
         }
     },[])
 
+    useEffect(()=>{
+      if(typeof window.console !== "undefined"){
+        if(window.location.href.includes("clear-cart=1")){
+          clearCartAfterPayment()
+        }
+      }
+    },[order])
     let subtotal = 0;
     if (order?.cartProducts) {
         for (const product of order?.cartProducts) {

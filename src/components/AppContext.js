@@ -69,7 +69,21 @@ export const AppProvider =({children})=>{
     const clearCart =async()=>{
         setCartProducts([])
         saveCartProductsToLocalStorage([])
+        console.log("clearing cart")
     }
+
+    const clearCartAfterPayment = () =>{
+        console.log("got here after payment")
+        clearCart();
+        fetch("/api/cart",{
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify([])
+        })
+    }
+    
     const saveCartProductsToLocalStorage = (cartProducts) =>{
         if(ls){
             ls.setItem("cart-food-delivery", JSON.stringify(cartProducts))
@@ -93,7 +107,7 @@ export const AppProvider =({children})=>{
     return (
         <SessionProvider>
             <CartContext.Provider value={{
-                cartProducts, setCartProducts, addToCart, removeCartProduct, clearCart, cartProductPrice,saveAndClearCart
+                cartProducts, setCartProducts, addToCart, removeCartProduct, clearCart, cartProductPrice,saveAndClearCart,clearCartAfterPayment
             }}>
                 {children}
             </CartContext.Provider>
