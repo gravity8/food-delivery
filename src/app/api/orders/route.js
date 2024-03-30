@@ -8,7 +8,7 @@ import { UserInfo } from "@/app/models/UserInfo";
 import clientPromise from "@/libs/mongoConnect";
 import bcrypt from "bcrypt";
 import {User} from "@/app/models/User"
-import {getServerSession} from "next-auth";
+// import {getServerSession} from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { MongoDBAdapter } from "@auth/mongodb-adapter"
