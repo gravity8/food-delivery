@@ -45,9 +45,13 @@ const Header = () => {
           <i>
             <AiOutlineShoppingCart size={24}/>
           </i>
-          <span className="absolute flex items-center justify-center -top-2  -right-2 font-light h-5 w-5 text-white text-xs bg-red-600 rounded-full">
-            {cartProducts?.length}
-          </span>
+          {
+            cartProducts?.length>0 && 
+            <span className="absolute flex items-center justify-center -top-2  -right-2 font-light h-5 w-5 text-white text-xs bg-red-600 rounded-full">
+              {cartProducts?.length}
+            </span>
+          }
+          
         </Link>
         {status==="authenticated" 
         &&
