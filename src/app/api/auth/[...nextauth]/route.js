@@ -12,9 +12,6 @@ mongoose.connect(process.env.MONGO_URL);
 const authOptions = {
   secret: process.env.SECRET,
   adapter: MongoDBAdapter(clientPromise),
-  pages : {
-    signOut: "@/app/login",
-  },
   session: {
     strategy : "jwt",
   },
