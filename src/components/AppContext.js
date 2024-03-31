@@ -27,13 +27,11 @@ export const AppProvider =({children})=>{
         fetch("/api/cart").then(res=>{
             if(res.ok){
               res.json().then(cartItems=>{
+                console.log(cartItems)
                 if(cartItems.allCartItems?.length>0){
                   setCartProducts(cartItems?.allCartItems)
                 }
               })
-            }
-            else{
-                console.log(res)
             }
           })
         if(ls && ls.getItem("cart-food-delivery")){
@@ -81,7 +79,7 @@ export const AppProvider =({children})=>{
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify([])
+            body: JSON.stringify(cartProducts)
         })
     }
     
