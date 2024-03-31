@@ -32,7 +32,9 @@ export const AppProvider =({children})=>{
                 }
               })
             }
-            
+            else{
+                console.log(res)
+            }
           })
         if(ls && ls.getItem("cart-food-delivery")){
             setCartProducts(JSON.parse(ls.getItem("cart")))
