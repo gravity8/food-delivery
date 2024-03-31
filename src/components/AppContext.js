@@ -27,8 +27,11 @@ export const AppProvider =({children})=>{
         fetch("/api/cart").then(res=>{
             if(res.ok){
               res.json().then(cartItems=>{
-                if(cartItems.allCartItems?.length>0){
+                if(cartItems?.allCartItems?.length>0){
                   setCartProducts(cartItems?.allCartItems)
+                }
+                else{
+                    setCartProducts([])
                 }
               })
             }
